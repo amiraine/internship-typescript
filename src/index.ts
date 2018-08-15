@@ -127,7 +127,7 @@ interface Person {
         readonly title: string
         readonly yearsExp: number
     }
-    readonly siblings: Name[]
+    readonly siblings: ReadonlyArray<Name>
 }
 
 const personObject: Person = {
