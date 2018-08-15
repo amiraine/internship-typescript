@@ -118,19 +118,26 @@ const peopledb = [
 interface Name { 
     readonly firstName: string
     readonly lastName: string
+}
 
+interface Job {
+    readonly title: string
+    readonly yearsExp: number
 }
 
 interface Person {
     readonly name: Name
-    readonly job?: {
-        readonly title: string
-        readonly yearsExp: number
-    }
+    readonly job?: Job
     readonly siblings: ReadonlyArray<Name>
+    readonly company?: string
 }
 
-const personObject: Person = {
+interface Database {
+    readonly company: string
+    readonly people: ReadonlyArray<Person>  
+}
+
+const personOne: Person = {
     name: {
         firstName: "Ami",
         lastName: "Cooper",
@@ -144,5 +151,29 @@ const personObject: Person = {
             firstName: "Alison",
             lastName: "Dyche",
         },
+    ],
+}
+const personTwo: Person = {
+    name: {
+        firstName: "Bryce",
+        lastName: "Craig",
+    },
+    siblings: [
+        {
+            firstName: "Brandon",
+            lastName: "Craig",
+        },
+        {
+            firstName: "Evan",
+            lastName: "Craig",
+        },
+    ],
+}
+
+const database: Database = {
+    company: "Olio Apps",
+    people: [
+        personOne,
+        personTwo
     ]
 }
