@@ -95,25 +95,6 @@ console.log(result)
 // Aron sample problem
 //create person database name: {firstname: lastname: , job? not required, years experience (this is a string), siblings (this is an array with the same data structure as that)}
 
-const peopledb = [
-    {
-        "name": {
-            "firstName": "Ami",
-            "lastName": "Cooper",
-        },
-        "job": {
-            "title": "Intern",
-            "yearsExp": 0,
-        },
-        "siblings": [
-            {
-                "first": "Alison",
-                "last": "Dyche",
-            },
-        ],
-
-    }
-]
 
 interface Name { 
     readonly firstName: string
@@ -129,7 +110,6 @@ interface Person {
     readonly name: Name
     readonly job?: Job
     readonly siblings: ReadonlyArray<Name>
-    readonly company?: string
 }
 
 interface Database {
@@ -153,6 +133,7 @@ const personOne: Person = {
         },
     ],
 }
+
 const personTwo: Person = {
     name: {
         firstName: "Bryce",
@@ -174,6 +155,48 @@ const database: Database = {
     company: "Olio Apps",
     people: [
         personOne,
-        personTwo
-    ]
+        personTwo,
+    ],
 }
+// console.log(database);
+
+// write a function that will take in the database and then it will return the database and also takes new company name, make this immutable, spread operator liberally
+//takes db, takes newcompany, return
+
+const changeName = (db: object, newName: string) => ({...db, company: newName})
+
+console.log(database);
+console.log(changeName(database,'New Name'));
+
+
+//write function that will take in db, add person and return db. use spread operator. Add two people using this function.
+
+const newPerson: Person = {
+    name: {
+        firstName: "Tom",
+        lastName: "Cruise",
+    },
+    job: {
+        title: "Actor",
+        yearsExp: 30
+    },
+    siblings: [
+        {
+            firstName: "Evan",
+            lastName: "Cruise",
+        },
+    ],
+}
+
+const addPerson = (db: Database, newPerson: Person) => {
+    // let newDatabase = {...db}
+    // newDatabase.people.push(newPerson)
+    // return newDatabase;
+    // this code does something weird to mutate the data? 
+    return {...db, people: [...db.people, newPerson]}
+}
+const database1 = addPerson(database, newPerson)
+
+const database2 = addPerson(database1, newPerson)
+
+console.log(database2);
