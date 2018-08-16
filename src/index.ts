@@ -47,7 +47,7 @@ function buildName(firstName: string, ...restOfName: string[]){
 let employeeName = buildName("Ami", "m", "i", "C")
 console.log(employeeName);
 ∂
-/// using the ... notation to allow for infinite number of parameters which then get stored in an array
+/// using the ... notation to allow for infinite number of parameters which then get stored in an array 
 
 /// card picker
 
@@ -158,15 +158,15 @@ const database: Database = {
         personTwo,
     ],
 }
-// console.log(database);
+console.log(database);
 
 // write a function that will take in the database and then it will return the database and also takes new company name, make this immutable, spread operator liberally
 //takes db, takes newcompany, return
 
-const changeName = (db: object, newName: string) => ({...db, company: newName})
+const changeName = (db: Database, newName: string): Database => ({ ...db, company: newName })
 
-console.log(database);
-console.log(changeName(database,'New Name'));
+console.log("This is the basic database", database);
+console.log("This is the changeName function", changeName(database, "New Name"));
 
 
 //write function that will take in db, add person and return db. use spread operator. Add two people using this function.
@@ -178,7 +178,7 @@ const newPerson: Person = {
     },
     job: {
         title: "Actor",
-        yearsExp: 30
+        yearsExp: 30,
     },
     siblings: [
         {
@@ -188,15 +188,81 @@ const newPerson: Person = {
     ],
 }
 
-const addPerson = (db: Database, newPerson: Person) => {
-    // let newDatabase = {...db}
-    // newDatabase.people.push(newPerson)
-    // return newDatabase;
-    // this code does something weird to mutate the data? 
-    return {...db, people: [...db.people, newPerson]}
-}
+const addPerson = (db: Database, newPerson: Person): Database => ({ ...db, people: [...db.people, newPerson] })
+
 const database1 = addPerson(database, newPerson)
 
 const database2 = addPerson(database1, newPerson)
 
-console.log(database2);
+
+console.log("This is the addPerson function called twice to add two users ", database2);
+console.log("this is the database", database);
+
+// create a function that will allow you to delete Person objects without using the delete keyword.
+
+const deletePerson = (inputName: string, db: Database): Database => {
+    const newPeopleArray: Array<Person> = [...db.people].filter((person: Person )=> person.name.firstName != inputName)
+    return { ...db, people: newPeopleArray }
+}
+
+console.log("This is the deletePerson function", deletePerson("Ami", database))
+
+// if you use JSON.stringify on the database instead of the spread operator, then you don't get the readonly error.
+
+const editPersonName = (inputName: string, newFullName: string, db: Database): Database => {
+    const [newFirstName, newLastName] = newFullName.split(" ")
+    let newDb = { ...db }
+    newDb.people.map((person: Person) => {
+        if(inputName === person.name.firstName){
+            person.name.firstName = newFirstName
+            person.name.lastName = newLastName
+        }
+    })
+    return newDb
+}
+
+console.log("edit person function", editPersonName("Ami", "Ameliah Raine", database))
+
+// write a function that will allow you to edit a person's job experience. 
+
+const editPersonExp = (name: string, exp: number, db: Database): Database => {
+    let newDb = { ...db }
+    newDb.people.map((person: Person) => {
+        if(person.name.firstName === name){
+            if(!person.job){
+                return newDb
+            }
+            person.job.yearsExp = exp
+        }
+    })
+    return newDb
+}
+
+console.log(editPersonExp("Ameliah", 2, database))
+console.log(editPersonExp("Bryce", 2, database))
+
+// write a function that will create an array of unique jobs 
+
+const largeData: Database = {
+    company: "Apple Inc.",
+    people: [
+        personOne,
+        personTwo,
+        newPerson,
+        personOne,
+        personOne,
+        personTwo,
+    ],
+}
+
+const getJobs = (db: Database): Array<string> => {
+    const newDb = { ...db }
+    const jobArray = newDb.people.filter((person: Person) => person.job).map((person: Person) => person.job.title)
+    const setOfJobs = new Set(jobArray)
+    return Array.from(setOfJobs)
+}
+
+console.log(getJobs(largeData));
+
+// learn more about json.parse and json.stringify
+//how to create a new deep copy of things
