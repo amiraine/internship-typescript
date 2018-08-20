@@ -17,7 +17,8 @@
     "@types/node": "7.0.22",
     "body-parser": "^1.18.2",
     "express": "4.15.3",
-    "nodemon": "1.11.0"
+    "nodemon": "1.11.0",
+    "webpack": "^4.16.5"
   },
   "devDependencies": {
     "@types/mocha": "2.2.41",
